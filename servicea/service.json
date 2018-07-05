@@ -1,0 +1,8 @@
+{
+  "app": "svc-a",
+  "calls": {
+    "svc-b": {
+      "accessToken": "bbb-456"
+    }
+  }
+}
