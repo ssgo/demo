@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/ssgo/s"
-	"github.com/ssgo/discover"
+	"github.com/ssgo/s/discover"
 )
 
 type In struct {
@@ -20,7 +20,7 @@ func main() {
 		}{}
 		caller.Post("svc-b", "/getLastName", in).To(&result)
 		return Out{
-			LastName: in.Name,
+			LastName:  in.Name,
 			FirstName: result.FirstName,
 		}
 	})
