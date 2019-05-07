@@ -1,8 +1,8 @@
 package main
 
 import (
+	"github.com/ssgo/discover"
 	"github.com/ssgo/s"
-	"github.com/ssgo/s/discover"
 )
 
 type In struct {
