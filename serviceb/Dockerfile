@@ -1,4 +1,4 @@
-FROM centos
+FROM alpine
 ADD server /opt/
 ADD env.json /opt/
 ENTRYPOINT /opt/server

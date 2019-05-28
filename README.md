@@ -52,6 +52,8 @@ systemctl enable docker
 docker run -d --privileged=true --restart=always -p 80:5000 -v /opt/registry:/var/lib/registry --name registry registry
 ```
 
+本地生成一个镜像仓库服务
+
 ## 拉取 redis 镜像，并存储到私服中
 ``` shell
 docker pull redis
@@ -59,11 +61,11 @@ docker tag redis 192.168.0.117/redis
 docker push 192.168.0.117/redis
 ```
 
-## 拉取 centos 镜像，并存储到私服中
+## 拉取 alpine 镜像，并存储到私服中
 ``` shell
-docker pull centos
-docker tag centos 192.168.0.117/centos
-docker push 192.168.0.117/centos
+docker pull alpine
+docker tag alpine 192.168.0.117/alpine
+docker push 192.168.0.117/alpine
 ```
 
 ## 拉取 ssgo/dock 镜像，并存储到私服中
@@ -85,6 +87,7 @@ docker push 192.168.0.117/ssgo/gateway
 docker run --name dock -d --restart=always --network=host -v /opt/dock:/opt/data -e 'dock_privateKey=-----BEGIN RSA PRIVATE KEY-----,MIIEowIBAAKCAQEAxKW424uZTFiQYvDms4mqhNW4I0a45tyrTrGSgSJWW4H1WzV0,fX+4eHIToWzKItDQCj27wwrK0Urh9MzmQAPV/0PpXbQRfWwBan3dhM14qkkfjK2o,ECnmVQXvXKAiQ6ZKpbxnpVn69VFjUQrE0Di8Tubn7JKzid8q2yWFts35f10rRBX4,0ebEm8Z2EdLepfuufVoeyv8mzLnUUuJtj071jXlyFGEagfPPOitSu6Fzrgr+ufMH,TY/hFgeVbWk5nw47OeAthWfrBENDlDv34PiWcVjtNohtUgCyHbsSh7lx1nxTJohG,WBJmMmMwbWdnVv8rdkzh3WO2FJyuYKgj6JP2qQIDAQABAoIBAQCCwVLmoK9BJY50,S4yLCtnYU6eJxUfDMi2yOL6aoPNdC0/S4vtfS2Kkq+3Do2vQtJnwhVXo/a8YdTtD,pE7hd+t+PXDZvpb2l69lWOXHnTxDtjWFPB8JCGNAW57qLww5gUQXaexc9TS6k/B+,/bMaZO9JY54JHw7EeSCs8Qk1IUZp2aWTDYJyGE14rfYe2IKh7trGh3lQv2QhNbMT,lR1uKubF6TrUbk+M9DMkqIozbaTOTtF4NuVn93LNiTi7RD4FwPtmKa+50MfE37kK,Un3zcHYY5URAIES9EOyUJ/zcYYcLnbSGJqlj9tWZXm0ZUKdj/sNI87cJn+xq1ImA,IfR9fig1AoGBAO/rf0zNypppZAqIw3vmkeKGOgnNUU+ycYJn/lSHn3EB9e0HDl9S,zvPVbSHeUwjld0Ss4w09HriyTsY29q1U6xbZ+lKF9geELjBLq1W+lq5s7L1+P0xl,X1VzSsmSwfdJ9yRFQERXeGyIBDNYs1lOXrs04E4oinrbZs7GDCgXerWvAoGBANHT,wxTYhYMCj+ujqylHeS8mm9Uk0tnvxMLeMdrMUHpV/t8YTVUdxKitrb4e7tvJ6a4h,kxb05Aa9VXSj5Hq8c8VYY7n/NnmNicym9LNe9yMaPSuwAtbQRPqrjS0saNJl0Ecv,Lx0cN4fBMyevd4AlJzUX8vQ4HjebK69Scr1p3YcnAoGAUQOintq22WFRKMV5zTLU,fDt7CahNFq5Y6gIXvY92ZYCV/I3vanzZ6Thee5tJSq3Bkm0W1neXEiMTupcAwRL1,t2evwYH+zBb0SdajanbLBuc9IdeppDBu+rnNvTdTTB+r1pGT2//1aCCd2oDPPw7Z,qjl2rK2/5TCFDLmPjVIwW30CgYAH33UzZAhmaQMzaTmz282tOjqgnbgXm0p7sVCX,kBD49h8RCd1k8y/80D9zob9+ma3d7b6SHvArXJFHRhr9i/KgFffv86Z8mxXvitgl,nsuREpv29qy0mK3t5d/vMPph4pYVBa0z32op+tLLi2bldP9qm5JvHWfs2DKkamiJ,uN4qAwKBgDb1BvQJgQ+2BEzYGC1vEr01GAcLmN48hxFV4YdK89z/cdof+c4NDaiT,rKuWWwYWx5lI0XNqS16caFDa47hwjT2VwHGOTFuwRa1QnnpWE9RQ+tLFmwZ1if5n,yHTxuoLlVQJuTsq+WywNdKMMTJOoPsgKUW5QPVA/VMe118TXIyII,-----END RSA PRIVATE KEY-----' 192.168.0.117/ssgo/dock
 ```
 
+运行一个ssgo/dock服务，dock服务中可配置其他服务的参数，带有web管理界面。
 
 # Build demo
 
@@ -113,13 +116,13 @@ docker push 192.168.0.117/demo/controller
 
 ``` shell
 cd ../servicea
-go build -o server
+go build -ldflags "-w -s" -o server
 docker build . -t 192.168.0.117/demo/servicea
 docker push 192.168.0.117/demo/servicea
 
 ``` shell
 cd ../serviceb
-go build -o server
+go build -ldflags "-w -s" -o server
 docker build . -t 192.168.0.117/demo/serviceb
 docker push 192.168.0.117/demo/serviceb
 ```
